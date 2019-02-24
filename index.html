@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale=1.0">
+
+    <title>LipeLabs Maps</title>
+    <style>
+      #map{
+        height: 400px;
+         width:400px;
+       }
+    </style>
+  </head>
+
+  <body>
+
+    <h1>API Google Maps - JS</h1>
+    <div id="map"></div>
+    <script>
+        function initMap(){
+
+            //opções do mapa
+            var options = {
+              zoom:12,
+              center:{lat: -19.467613, lng: -42.548409 }
+            }
+
+            //criando o mapa
+            var map = new google.maps.Map(document.getElementById('map'), options);
+
+
+            //adicionando icone e marcador
+            var icon = {
+                url: "https://psfunerals.com/wp-content/uploads/2017/05/map-marker.png", // url
+                scaledSize: new google.maps.Size(50, 50), // scaled size
+                origin: new google.maps.Point(0,0), // origin
+                anchor: new google.maps.Point(0, 0) // anchor
+            };
+            var marker  = new google.maps.Marker({
+                position:{lat: -19.4508651, lng: -42.559535 },
+                map:map,
+                icon:icon
+            });
+
+
+            //adicionando informação
+            var infoWindow = new google.maps.InfoWindow({
+              content:'<h1>Canaã</h1>'
+            });
+
+            marker.addListener('click', function(){
+              infoWindow.open(map, marker);
+            });
+
+
+            //adicionando vários marcadores
+            function addMarcadores(props, titulo){
+                var marker  = new google.maps.Marker({
+                    position:props.coords.position,
+                    map:props.coords.map
+                });
+
+                //adicionando informação
+                var infoWindow = new google.maps.InfoWindow({
+                  content:'<h1>'+titulo+'</h1>'
+                });
+
+                marker.addListener('click', function(){
+                  infoWindow.open(map, marker);
+                });
+
+                if(props.coords.icon){
+                  marker.setIcon(props.coords.icon);
+                }
+            }
+            var icon = {
+                url: "https://pt.seaicons.com/wp-content/uploads/2016/03/Map-Marker-Flag-3-Left-Chartreuse-icon.png", // url
+                scaledSize: new google.maps.Size(50, 50), // scaled size
+                origin: new google.maps.Point(0,0), // origin
+                anchor: new google.maps.Point(0, 0) // anchor
+            };
+
+            addMarcadores({coords:{position:{lat: -19.4464791, lng: -42.5746133 },map:map,icon:icon}}, "Vila Celeste");
+
+            addMarcadores({coords:{position:{lat: -19.469915, lng: -42.531936 },map:map,icon:icon}}, "Centro");
+
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkfh_csD56-Oy_Ut1nJtHuBeeIPsqgzfE&callback=initMap"
+      async defer></script>
+  </body>
+</html>
