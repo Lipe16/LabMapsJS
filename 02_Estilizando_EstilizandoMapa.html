@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale=1.0">
+
+    <title>LipeLabs Maps</title>
+    <style>
+      #map{
+        height: 400px;
+         width:400px;
+       }
+    </style>
+  </head>
+
+  <body>
+
+    <h1>Estilizando API Google Maps - JS  :D</h1>
+    <div id="map"></div>
+    <script>
+        function initMap(){
+
+              var estilo =  [
+              {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+              {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+              {elementType: 'labels.text.fill', stylers: [{color: '#840b0b'}]},
+
+              {featureType: 'administrative.locality',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+              },
+              {
+                featureType: 'poi',
+                elementType: 'labels.text.fill',
+                stylers: [{color: '#d59563'}]
+              },            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{color: '#38414e'}]
+              },
+              ];
+
+            //opções do mapa
+            var options = {
+              zoom:12,
+              center:{lat: -19.467613, lng: -42.548409 },
+              styles: estilo
+            }
+
+            //criando o mapa
+            var map = new google.maps.Map(document.getElementById('map'), options);
+
+
+
+
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=SuaKey&callback=initMap"
+      async defer></script>
+  </body>
+</html>
