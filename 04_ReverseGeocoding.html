@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geocoding Service</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map{
+        height: 400px;
+         width:400px;
+       }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Painel formulário -->
+    <div id="floating-panel">
+      <input id="latlng" type="textbox" value="-19.467613,-42.548409">
+      <input id="submit" type="button" value="Reverse Geocode">
+    </div>
+
+    <!-- div onde o mapa será carregado  -->
+    <div id="map"></div>
+
+    <!-- proghramação -->
+    <script>
+      //inicia o mapa
+      function initMap() {
+        //opções do mapa
+        var options = {
+          zoom:12,
+          center:{lat: -19.467613, lng: -42.548409 },
+        }
+
+        //criando o mapa
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+
+        //cria objeto com serviços de Geocoder
+        var geocoder = new google.maps.Geocoder();
+
+        // cria um alerta no ponto indicado com texto
+        var infowindow = new google.maps.InfoWindow;
+
+        //quando botão  do formulário dor clicado dispara este evento
+        document.getElementById('submit').addEventListener('click', function() {
+          geocodeLatLng(geocoder, map,infowindow);
+        });
+      }
+
+      //Geocoder oferece pesquisa reversa na qual pode-se informar as coordenadas de um local
+      // e obter informações textuais do local como cidade, estado...
+      function geocodeLatLng(geocoder, map, infowindow) {
+        var input = document.getElementById('latlng').value;
+        var latlngStr = input.split(',', 2);
+        var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+        geocoder.geocode({'location': latlng}, function(results, status) {
+          if (status === 'OK') {
+            if (results[0]) {
+              map.setZoom(11);
+              var marker = new google.maps.Marker({
+                position: latlng,
+                map: map
+              });
+              infowindow.setContent(results[0].formatted_address);
+              infowindow.open(map, marker);
+            } else {
+              window.alert('No results found');
+            }
+          } else {
+            window.alert('Geocoder failed due to: ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=SuaKey&callback=initMap">
+    </script>
+  </body>
+</html>
